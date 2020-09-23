@@ -97,7 +97,7 @@ def get_csv(request: Request, db: Session = Depends(get_db)):
 
     with open(csvfilename, "w", newline="") as csvfile:
         csvwriter = csv.writer(csvfile)
-        csvwriter.writerow(["id", "datum", "symbool", "taak", "makkelijk", "leuk"])
+        csvwriter.writerow(["id", "datum", "tijdstip", "symbool", "taak", "makkelijk", "leuk"])
         for line in lines:
 
             difficultstr = ""
@@ -113,7 +113,7 @@ def get_csv(request: Request, db: Session = Depends(get_db)):
                 likestr = "niet leuk"
 
             csvwriter.writerow(
-                [line.id, line.date, line.symbol, line.task, difficultstr, likestr]
+                [line.id, line.date.date(), line.date.time(), line.symbol, line.task, difficultstr, likestr]
             )
 
     return FileResponse(csvfilename, filename="results.csv")
